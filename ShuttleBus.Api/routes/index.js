@@ -5,8 +5,10 @@ var User = require('../models/user');
 function routes(app){
   //Allow cross domain
   app.use(function(req, res, next) {
+    res.setHeader('content-type','applicatioin/json; charset=UTF-8');
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
     next();
   });
   
@@ -18,6 +20,22 @@ function routes(app){
   });
   
   //Routes for our api
+  /* User Login Api */
+  router.route('/users/login')
+  .post(function(req, res){
+    var user = req.body;
+    if(user){
+      User.getUser(user.userName, user.password, function(err, user){
+        if(err){
+          res.json(err);
+        }
+        
+        res.json(user);
+      });
+    }else{
+      res.json({title : 'err', message:'No login user.'});
+    }
+  });
   /* User Api */
   //On routes that end in /users
   router.route('/users')
@@ -61,7 +79,7 @@ function routes(app){
   })
   .put(function(req, res){
     var user = req.body;
-    User.update(user, function(err, user){
+    User.update(req.params.userId, user, function(err, user){
       if(err){
         res.json(err);
       }

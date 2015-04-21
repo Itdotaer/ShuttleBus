@@ -2,34 +2,36 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   User = module.exports;
 
-var OAuthUsersSchema = new Schema({
+var UsersSchema = new Schema({
   userName: { type: String, required: true },
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  email: { type: String, default: 'hujiangtao1235@gmail.com' },
+  email: { type: String, default: '' },
   createdDate: { type: Date, default: new Date()}
 });
 
-mongoose.model('OAuthUsers', OAuthUsersSchema);
+mongoose.model('Users', UsersSchema);
 
-var OAuthUsersModel = mongoose.model('OAuthUsers');
+var UsersModel = mongoose.model('Users');
 
 /*
  * Required to support password grant type
  */
 User.getUser = function (username, password, callback) {
-  console.log('in getUser (username: ' + username + ', password: ' + password + ')');
-
-  OAuthUsersModel.findOne({ userName: username, password: password }, function(err, user) {
-    console.log(user);
+  UsersModel.findOne({ userName: username, password: password }, function(err, user) {
     if(err) return callback(err);
-    callback(null, user._id);
+    
+    callback(null, user);
   });
 };
 
+User.checkPermission = function(user, callback){
+  User.getUser(user.userName, user.password, callback);
+}
+
 User.addUser = function(user, callback){
-  new OAuthUsersModel(user).save(function(err, cbUser){
+  new UsersModel(user).save(function(err, cbUser){
     if(err){
       return callback(err);
     }
@@ -39,7 +41,7 @@ User.addUser = function(user, callback){
 };
 
 User.list = function(callback){
-  OAuthUsersModel.find(function(err, users){
+  UsersModel.find(function(err, users){
     if(err){
       return callback(err);
     }
@@ -48,7 +50,7 @@ User.list = function(callback){
 };
 
 User.getUserById = function(userId, callback){
-  OAuthUsersModel.findOne({_id: userId}, function(err, user){
+  UsersModel.findOne({_id: userId}, function(err, user){
     if(err){
       return callback(err);
     }
@@ -57,32 +59,26 @@ User.getUserById = function(userId, callback){
   });
 };
 
-User.update = function(user, callback){
-  OAuthUsersModel.find({_id: user._id}, function(err, foundUser){
+User.update = function(userId, user, callback){
+  console.log('before', user);
+  UsersModel.findOneAndUpdate({_id: userId}, {firstName: user.firstName, lastName: user.lastName, email: user.email}, function(err, cbUser){
     if(err){
       return callback(err);
     }
-    if(foundUser.length == 1){
-      foundUser.userName = user.userName;
-      foundUser.save(function(err, savedUser){
-        if(err){
-          return callback(err);
-        }
-        
-        callback(null, savedUser);
-      });
-    }else{
-      return callback('not find user by id:' + user._id);
-    }
-  });
+    
+    console.log('after', cbUser);
+    
+    callback(null, cbUser);
+  })
 };
+
 User.delete = function(userId, callback){
-  OAuthUsersModel.find({_id: userId}, function(err, foundUser){
+  UsersModel.find({_id: userId}, function(err, foundUser){
     if(err){
       return callback(err);
     }
     if(foundUser.length == 1){
-      OAuthUsersModel.findByIdAndRemove(userId, function(err){
+      UsersModel.findByIdAndRemove(userId, function(err){
         if(err){
           return callback(err);
         }

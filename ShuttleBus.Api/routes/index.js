@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var BusRoute = require('../models/busRoute.js');
 
 function routes(app){
   //Allow cross domain
@@ -27,10 +28,11 @@ function routes(app){
     if(user){
       User.getUser(user.userName, user.password, function(err, user){
         if(err){
+          res.status(err.status || 500);
           res.json(err);
+        }else{
+          res.json(user);
         }
-        
-        res.json(user);
       });
     }else{
       res.json({title : 'err', message:'No login user.'});
@@ -45,10 +47,11 @@ function routes(app){
     if(user){
       User.addUser(user, function(err, cbUser){
         if(err){
+          res.status(err.status || 500);
           res.json(err);
+        }else{
+          res.json(cbUser);
         }
-
-        res.json(cbUser);
       });
     }else{
       res.json({title: 'error', msg: 'nothing input.'});
@@ -58,10 +61,11 @@ function routes(app){
   .get(function(req, res){
     User.list(function(err, users){
       if(err){
+        res.status(err.status || 500);
         res.json(err);
+      }else{
+        res.json(users);
       }
-
-      res.json(users);
     })
   });
   
@@ -71,28 +75,103 @@ function routes(app){
   .get(function(req, res){
     User.getUserById(req.params.userId, function(err, user){
       if(err){
+        res.status(err.status || 500);
         res.json(err);
-      }
-
-      res.json(user);
+      }else{
+        res.json(user);
+      } 
     });
   })
   .put(function(req, res){
     var user = req.body;
     User.update(req.params.userId, user, function(err, user){
       if(err){
+        res.status(err.status || 500);
         res.json(err);
+      }else{
+        res.json(user);
       }
-
-      res.json(user);
     });
   })
   .delete(function(req, res){
     User.delete(req.params.userId, function(err){
       if(err){
+        res.status(err.status || 500);
         res.json(err);
+      }else{
+        res.json({title: 'success', msg: 'deleted.'});
       }
-      res.json({title: 'success', msg: 'deleted.'});
+    });
+  });
+  
+  //One routes that end in /busRoutes
+  router.route('/busRoutes')
+  .post(function(req, res){
+    var busRoute = req.body;
+    BusRoute.add(busRoute, function(err, cbBusRoute){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusRoute);
+      }
+    });
+  })
+  .get(function(req, res){
+    var pageSize = req.query.pageSize;
+    var pageIndex = req.query.pageIndex;
+    if(pageSize && pageIndex){         
+      BusRoute.totalNum(pageSize, function(err, count){
+        if(err){
+          res.status(err.status || 500);
+          res.json(err);
+        }else{
+          BusRoute.list(pageSize, pageIndex, function(err, cbBusRoutes){
+            if(err){
+                res.json(err);
+              }else{
+                res.json({routes: cbBusRoutes, count: count});
+              }
+            });
+          }
+        });
+    }else{
+      res.json("PageSize or PageIndex is null.");
+    }
+  });
+  
+  //One routes that end in /busRoute/:routeId
+  router.route('/busRoutes/:routeId')
+  //Get bus route by id
+  .get(function(req, res){
+    BusRoute.getRouteById(req.params.routeId, function(err, cbBusRoute){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusRoute);
+      }
+    });
+  })
+  .put(function(req, res){
+    var busRoute = req.body;
+    BusRoute.update(req.params.routeId, busRoute, function(err, cbBusRoute){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusRoute);
+      }
+    });
+  })
+  .delete(function(req, res){
+    BusRoute.delete(req.params.routeId, function(err){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json({title: 'success', msg: 'deleted.'});
+      }
     });
   });
   

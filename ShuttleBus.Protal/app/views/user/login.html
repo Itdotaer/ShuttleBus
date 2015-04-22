@@ -1,0 +1,22 @@
+﻿<!-- Start Login Form -->
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="http://www.gravatar.com/avatar/{{ vm.userInfo.email | gravatar }}" />
+        <p class="profile-name-card"></p>
+        <form class="form-signin" name="form">
+            <span class="reauth-email"></span>
+            <input type="text" ng-model="vm.userInfo.userName" class="form-control" placeholder="UserName" required="" autofocus="">
+            <input type="password" ng-model="vm.userInfo.password" class="form-control" placeholder="Password" required="">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" style="padding: 5px 0 5px 0;" value="remember-me" ng-checked="vm.userInfo.rememberedMe" ng-model="vm.userInfo.rememberedMe">
+                    <span style="font-size: 15px">
+                        Remembered Me
+                    </span>
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" ng-click="vm.login()" ng-disabled="!form.$valid">Sign in</button>
+        </form>
+    </div>
+</div>
+<!-- End Login Form -->

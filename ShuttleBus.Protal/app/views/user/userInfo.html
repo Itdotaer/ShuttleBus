@@ -1,0 +1,34 @@
+﻿<!-- Start Login Form -->
+<div class="container userInfo">
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+            User Info
+        </div>
+        <div class="panel-body" style="margin: 5px 20px 5px 20px;">
+            <div class="profile-img-card">
+                <img src="http://www.gravatar.com/avatar/{{ userInfo.email | gravatar }}" />
+                <span style="font-size: 20px;">{{userInfo.firstName + ' ' + userInfo.lastName}}</span>
+            </div>
+            <div class="detailInfo">
+                <div class="row borderBottom">
+                    User Name:{{userInfo.userName}}
+                </div>
+                <div class="row borderBottom">
+                    First Name:{{userInfo.firstName}}
+                </div>
+                <div class="row borderBottom">
+                    Last Name:{{userInfo.lastName}}
+                </div>
+                <div class="row borderBottom">
+                    Email:{{userInfo.email}}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <a class="btn btn-primary pull-right" ui-sref="editUserInfo">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Login Form -->

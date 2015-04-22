@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="appController as vm">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Harry Hu">
+    <meta name="gmail" content="hujiangtao1235@qq.com">
+    <meta name="github" content="https://github.com/SoftwareDreamer" />
+
+    <title>{{appName}} - Powered by Harry Hu</title>
+
+    <!--Styles-->
+    <link rel="stylesheet" type="text/css" href="/app/scripts/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/app/scripts/vendor/bootstrap/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" />
+    <link rel="stylesheet" type="text/css" href="/app/styles/style.css" />
+    
+        
+</head>
+    <body>
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navBar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ui-sref="index">Shuttle Bus</a>
+                </div>
+                
+                <div class="navbar-collapse collapse" id="navBar" aria-expanded="false">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a ui-sref="login">Bus Routes</a>
+                        </li>
+                        <li>
+                            <a ui-sref="login">Bus Schedules</a>
+                        </li>
+                        <li>
+                            <a ui-sref="login">Bus</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-if="!authorised">
+                            <a ui-sref="login">Login</a>
+                        </li>
+                        <li class="dropdown" ng-if="authorised">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{userInfo.firstName + ' ' + userInfo.lastName}}<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a ui-sref="userInfo">User Info</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="logout">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navigation -->
+
+        <!-- Start Main Body -->
+        <ui-view></ui-view>
+        <!-- End Main Body -->
+
+        <!-- Start Footer -->
+        <footer class="footer">
+            <p>Designed and built with all the love in the world by <a href="mailto:hujiangtao1235@gmail.com">Harry</a>.
+            </p>
+            <p>
+                All rights reserved.
+            </p>
+        </footer>
+        <!-- End Footer -->
+
+        <!-- Start view related js files -->
+        <!--Inject JQuery-->
+        <script type="text/javascript" src="/app/scripts/vendor/jQuery/jquery-1.9.1.min.js"></script>
+
+        <!--Bootscript related js files-->
+        <script type="text/javascript" src="/app/scripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!--Toastr-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js"></script>
+        <!-- End view related js files -->
+
+        <!-- Start AngularJS Related Js Files -->
+        <!--Angular Core Scripts-->
+        <script type="text/javascript" src="/app/scripts/vendor/angularJS/angular-1.4.0-beta.6/angular.js"></script>
+        <script type="text/javascript" src="/app/scripts/vendor/uiBootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+        <script type="text/javascript" src="/app/scripts/vendor/angularMd5/angular-md5.js"></script>
+        <script type="text/javascript" src="/app/scripts/vendor/angularJS/angular-1.4.0-beta.6/angular-cookies.js"></script>
+        <script type="text/javascript" src="/app/scripts/vendor/angularJS/angular-ui-router.js"></script>     
+
+        <!--Inject angular related js files-->
+        <script type="text/javascript" src="/app/scripts/app.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/appCtrl.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/mainCtrl.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/user/loginCtrl.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/user/logoutCtrl.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/user/editUserInfoCtrl.js"></script>
+
+        <!--Directives related-->     
+
+        <!--Services related-->
+        <script type="text/javascript" src="/app/scripts/services/servicesModule.js"></script>
+        <script type="text/javascript" src="/app/scripts/services/logger.js"></script>
+        <script type="text/javascript" src="/app/scripts/services/userService.js"></script>
+
+        <!-- End AngularJS Related Js Files-->
+    </body>
+</html>

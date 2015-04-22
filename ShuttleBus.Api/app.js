@@ -10,7 +10,7 @@ var routes = require('./routes/index');
 
 var app = express();
 // connect to Mongo when the app initializes
-mongoose.connect('mongodb://localhost:27017/blogTest');
+mongoose.connect('mongodb://localhost:27017/ShuttleBus');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

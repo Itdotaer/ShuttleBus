@@ -1,7 +1,7 @@
 ﻿(function() {
     'use sctrict';
 
-    var app = angular.module('app', ['ui.router', 'ngCookies', 'angular-md5', 'services']);
+    var app = angular.module('app', ['ui.router', 'ngCookies', 'angular-md5', 'services', 'ui.bootstrap']);
 
     app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
@@ -10,7 +10,7 @@
     ]);
 
     router.$inject = ['$stateProvider', '$urlRouterProvider'];
-    routeChanged.$inject = ['$cookies', '$state', '$rootScope', '$location'];
+    routeChanged.$inject = ['$cookies', '$state', '$rootScope', '$location', 'logger'];
 
     //Router
     app.config(router);
@@ -52,10 +52,16 @@
                 data: {
                     requireLogin: true
                 }
+            })
+            .state('busRoutes', {
+                url: '/busRoutes',
+                templateUrl: '/app/views/busRoute/busRoutes.html',
+                controller: 'busRouteController',
+                controllerAs: 'vm'
             });
     }
 
-    function routeChanged($cookies, $state, $rootScope, $location) {
+    function routeChanged($cookies, $state, $rootScope, $location, logger) {
         $rootScope.$on('$stateChangeStart', function (e, toState, toParams, fromState, fromParams) {
             var shouldLogin = toState.data !== undefined && toState.data.requireLogin;
             var loginUser = angular.fromJson($cookies.get('loginUser'));
@@ -73,6 +79,20 @@
                     e.preventDefault();
 
                     $rootScope.authorised = false;
+                    $rootScope.userInfo = null;
+                }
+            }
+            if (toState.name === 'login' && $rootScope.authorised) {
+                logger.logInfo('User already login.');
+                var fromStateName = fromState.name;
+                console.log('fromStateName', fromStateName);
+
+                if (fromStateName) {
+                    $state.go(fromStateName);
+                    e.preventDefault();
+                } else {
+                    $state.go('index');
+                    e.preventDefault();
                 }
             }
 
@@ -82,5 +102,5 @@
 
     //Constants
     app.constant('DEBUG', true);
-    app.constant('APIURL', 'http://forceful-fireball-82-165054.apne1.nitrousbox.com/');
+    app.constant('APIURL', 'http://forceful-fireball-82-165054.apne1.nitrousbox.com/api/');
 })();

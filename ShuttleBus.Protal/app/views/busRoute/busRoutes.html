@@ -1,0 +1,39 @@
+﻿<!-- Start Login Form -->
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Route Name</th>
+                <th>Route Description</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Created By</th>
+                <th>Created Date</th>
+                <th>Updated By</th>
+                <th>Updated Date</th>
+                <th ng-if="authorised">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="busRoute in vm.busRoutes">
+                <td>{{$index}}</td>
+                <td>{{busRoute.routeName}}</td>
+                <td>{{busRoute.routeDes}}</td>
+                <td>{{busRoute.routeFrom}}</td>
+                <td>{{busRoute.routeTo}}</td>
+                <td>{{busRoute.createdBy.userName}}</td>
+                <td>{{busRoute.createdDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{busRoute.lastUpdatedBy.userName}}</td>
+                <td>{{busRoute.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-if="authorised">
+                    <button class="btn btn-default">Add</button>
+                    <button class="btn btn-default">Update</button>
+                    <button class="btn btn-default" ng-click="vm.deleteRouteById(busRoute._id, $index)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination total-items="vm.count" ng-model="vm.pageIndex" max-size="vm.maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" ng-change="vm.pageChanged()" items-per-page="vm.pageSize"></pagination>
+</div>
+<!-- End Login Form -->

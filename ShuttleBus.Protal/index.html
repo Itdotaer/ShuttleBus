@@ -14,9 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/app/scripts/vendor/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/app/scripts/vendor/bootstrap/css/bootstrap-theme.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" />
-    <link rel="stylesheet" type="text/css" href="/app/styles/style.css" />
-    
-        
+    <link rel="stylesheet" type="text/css" href="/app/styles/style.css" />     
 </head>
     <body>
         <!-- Start Navigation -->
@@ -35,7 +33,7 @@
                 <div class="navbar-collapse collapse" id="navBar" aria-expanded="false">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a ui-sref="login">Bus Routes</a>
+                            <a ui-sref="busRoutes">Bus Routes</a>
                         </li>
                         <li>
                             <a ui-sref="login">Bus Schedules</a>
@@ -105,6 +103,7 @@
         <script type="text/javascript" src="/app/scripts/controllers/user/loginCtrl.js"></script>
         <script type="text/javascript" src="/app/scripts/controllers/user/logoutCtrl.js"></script>
         <script type="text/javascript" src="/app/scripts/controllers/user/editUserInfoCtrl.js"></script>
+        <script type="text/javascript" src="/app/scripts/controllers/busRoutes/busRoutesCtrl.js"></script>
 
         <!--Directives related-->     
 
@@ -112,6 +111,7 @@
         <script type="text/javascript" src="/app/scripts/services/servicesModule.js"></script>
         <script type="text/javascript" src="/app/scripts/services/logger.js"></script>
         <script type="text/javascript" src="/app/scripts/services/userService.js"></script>
+        <script type="text/javascript" src="/app/scripts/services/busRouteService.js"></script>
 
         <!-- End AngularJS Related Js Files-->
     </body>

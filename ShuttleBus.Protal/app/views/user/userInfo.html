@@ -5,28 +5,39 @@
             User Info
         </div>
         <div class="panel-body" style="margin: 5px 20px 5px 20px;">
-            <div class="profile-img-card">
-                <img src="http://www.gravatar.com/avatar/{{ userInfo.email | gravatar }}" />
-                <span style="font-size: 20px;">{{userInfo.firstName + ' ' + userInfo.lastName}}</span>
-            </div>
-            <div class="detailInfo">
-                <div class="row borderBottom">
-                    User Name:{{userInfo.userName}}
+            <div class="detailInfo form-horizontal">
+                <div class="profile-img-card">
+                    <img src="http://www.gravatar.com/avatar/{{ userInfo.email | gravatar }}" />
                 </div>
-                <div class="row borderBottom">
-                    First Name:{{userInfo.firstName}}
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">User Name:</label>
+                    <div class="col-sm-8">
+                        <label>{{userInfo.userName}}</label>
+                    </div>
                 </div>
-                <div class="row borderBottom">
-                    Last Name:{{userInfo.lastName}}
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Fist Name:</label>
+                    <div class="col-sm-8">
+                        <label>{{userInfo.userName}}</label>
+                    </div>
                 </div>
-                <div class="row borderBottom">
-                    Email:{{userInfo.email}}
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Last Name:</label>
+                    <div class="col-sm-8">
+                        <label>{{userInfo.lastName}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Email:</label>
+                    <div class="col-sm-8">
+                        <label>{{userInfo.email}}</label>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <div class="row">
-                <a class="btn btn-primary pull-right" ui-sref="editUserInfo">Edit</a>
+                <a class="btn btn-primary pull-right" style="margin: 0 10px 0 10px;" ui-sref="editUserInfo">Edit</a>
             </div>
         </div>
     </div>

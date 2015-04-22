@@ -29,7 +29,7 @@
             }
 
             //Validate user info from backend database.
-            return $http.post(APIURL + 'api/users/login', angular.toJson(loginUser), {
+            return $http.post(APIURL + 'users/login', angular.toJson(loginUser), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -43,7 +43,7 @@
         }
 
         function update(user) {
-            return $http.put(APIURL + 'api/users/' + user._id, angular.toJson(user), {
+            return $http.put(APIURL + 'users/' + user._id, angular.toJson(user), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -53,7 +53,7 @@
         }
 
         function getUserById(userId) {
-            return $http.get(APIURL + 'api/users/' + userId).then(function(resp) {
+            return $http.get(APIURL + 'users/' + userId).then(function(resp) {
                 return resp.data;
             });
         }

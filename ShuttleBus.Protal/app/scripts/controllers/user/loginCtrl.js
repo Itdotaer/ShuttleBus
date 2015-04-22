@@ -6,9 +6,9 @@
         .controller('loginController', loginController);
 
     //Inject modules
-    loginController.$inject = ['$scope', '$cookies', '$state', 'logger', 'userService','DEBUG'];
+    loginController.$inject = ['$scope', '$rootScope', '$cookies', '$state', 'logger', 'userService','DEBUG'];
 
-    function loginController($scope, $cookies, $state, logger, userService,DEBUG) {
+    function loginController($scope, $rootScope, $cookies, $state, logger, userService,DEBUG) {
         var vm = this;
         vm.login = login;
 

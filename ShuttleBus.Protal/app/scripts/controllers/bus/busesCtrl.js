@@ -3,27 +3,27 @@
 
     angular
         .module('app')
-        .controller('busRoutesController', busRoutesController);
+        .controller('busesController', busesController);
 
     //Inject modules
-    busRoutesController.$inject = ['$rootScope', '$state', '$modal', 'logger', 'busRouteService', 'DEBUG'];
+    busesController.$inject = ['$rootScope', '$state', '$modal', 'logger', 'busService', 'DEBUG'];
 
-    function busRoutesController($rootScope, $state, $modal, logger, busRouteService, DEBUG) {
+    function busesController($rootScope, $state, $modal, logger, busService, DEBUG) {
         var vm = this;
         vm.pageChanged = pageChanged;
-        vm.deleteRouteById = deleteRouteById;
+        vm.deleteBusById = deleteBusById;
         vm.open = open;
 
         activate();
 
         function activate() {
             vm.maxSize = 5;
-            vm.pageSize = 1;
+            vm.pageSize = 10;
             vm.pageIndex = 1;
 
-            busRouteService.getRoutes(vm.pageSize, vm.pageIndex)
+            busService.getBuses(vm.pageSize, vm.pageIndex)
                 .then(function(data) {
-                    vm.busRoutes = data.routes;
+                    vm.buses = data.buses;
                     vm.count = data.count;
                 }, function (reason) {
                     logger.logError(angular.toJson(reason));
@@ -31,22 +31,22 @@
         }
 
         function pageChanged() {
-            busRouteService.getRoutes(vm.pageSize, vm.pageIndex)
+            busService.getBuses(vm.pageSize, vm.pageIndex)
                .then(function (data) {
-                   vm.busRoutes = data.routes;
+                   vm.buses = data.buses;
                    vm.count = data.count;
                }, function (reason) {
                    logger.logError(angular.toJson(reason));
                });
         }
 
-        function deleteRouteById(routeId, idx) {
+        function deleteBusById(busId, idx) {
             if ($rootScope.authorised) {
-                busRouteService.deleteRouteById(routeId, idx).then(function(data) {
+                busService.deleteBusById(busId, idx).then(function(data) {
                     if (data.title === 'success') {
                         logger.logSuccess(data.msg);
 
-                        vm.busRoutes.splice(idx, 1);
+                        vm.buses.splice(idx, 1);
                         vm.count -= 1;
                     }
                 });
@@ -56,17 +56,17 @@
             }
         }
 
-        function open(model, routeId, idx) {
+        function open(model, busId, idx) {
             model = !model ? 'add' : model;
 
             var modalInstance = $modal.open({
-                templateUrl: '/app/views/busRoute/busRoute.html',
-                controller: 'busRouteController',
+                templateUrl: '/app/views/bus/bus.html',
+                controller: 'busController',
                 controllerAs: 'vm',
                 backdrop: false,
                 resolve: {
-                    routeId: function () {
-                        return model === 'add' ? null : routeId;
+                    busId: function () {
+                        return model === 'add' ? null : busId;
                     },
                     model: function () {
                         return model;
@@ -74,13 +74,13 @@
                 }
             });
 
-            modalInstance.result.then(function (route) {
+            modalInstance.result.then(function (bus) {
                 if (model === 'add') {
                     activate();
                 }
 
                 if (model === 'update') {
-                    vm.busRoutes[idx] = route;
+                    vm.buses[idx] = bus;
                 }
             }, function () {
                 logger.logInfo('Modal dismissed at: ' + new Date());

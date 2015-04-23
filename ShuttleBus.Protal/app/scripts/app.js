@@ -56,9 +56,15 @@
             .state('busRoutes', {
                 url: '/busRoutes',
                 templateUrl: '/app/views/busRoute/busRoutes.html',
-                controller: 'busRouteController',
+                controller: 'busRoutesController',
                 controllerAs: 'vm'
-            });
+            })
+            .state('buses', {
+                url: '/buses',
+                templateUrl: '/app/views/bus/buses.html',
+                controller: 'busesController',
+                controllerAs: 'vm'
+        });
     }
 
     function routeChanged($cookies, $state, $rootScope, $location, logger) {

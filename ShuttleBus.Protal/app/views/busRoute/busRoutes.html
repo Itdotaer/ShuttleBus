@@ -27,9 +27,10 @@
                 <td>{{busRoute.lastUpdatedBy.userName}}</td>
                 <td>{{busRoute.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td ng-if="authorised">
-                    <button class="btn btn-default">Add</button>
-                    <button class="btn btn-default">Update</button>
-                    <button class="btn btn-default" ng-click="vm.deleteRouteById(busRoute._id, $index)">Delete</button>
+                    <a href="javascript:void(0);" ng-click="vm.open('detail', busRoute._id)">Detail</a>
+                    <a href="javascript:void(0);" ng-click="vm.open()">Add</a>
+                    <a href="javascript:void(0);" ng-click="vm.open('update', busRoute._id, $index)">Update</a>
+                    <a href="javascript:void(0);" ng-click="vm.deleteRouteById(busRoute._id, $index)">Delete</a>
                 </td>
             </tr>
         </tbody>

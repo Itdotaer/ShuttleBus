@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var BusRoute = require('../models/busRoute.js');
+var Bus = require('../models/bus.js');
 
 function routes(app){
   //Allow cross domain
@@ -99,7 +100,7 @@ function routes(app){
         res.status(err.status || 500);
         res.json(err);
       }else{
-        res.json({title: 'success', msg: 'deleted.'});
+        res.json({title: 'success', msg: 'Deleted.'});
       }
     });
   });
@@ -108,6 +109,7 @@ function routes(app){
   router.route('/busRoutes')
   .post(function(req, res){
     var busRoute = req.body;
+    console.log(busRoute);
     BusRoute.add(busRoute, function(err, cbBusRoute){
       if(err){
         res.status(err.status || 500);
@@ -140,7 +142,7 @@ function routes(app){
     }
   });
   
-  //One routes that end in /busRoute/:routeId
+  //One routes that end in /busRoutes/:routeId
   router.route('/busRoutes/:routeId')
   //Get bus route by id
   .get(function(req, res){
@@ -167,10 +169,81 @@ function routes(app){
   .delete(function(req, res){
     BusRoute.delete(req.params.routeId, function(err){
       if(err){
-        res.status(err.status || 500);
         res.json(err);
       }else{
         res.json({title: 'success', msg: 'deleted.'});
+      }
+    });
+  });
+  
+  //One routes that end in /buses
+  router.route('/buses')
+  .post(function(req, res){
+    var bus = req.body;
+    Bus.add(bus, function(err, cbBus){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBus);
+      }
+    });
+  })
+  .get(function(req, res){
+    var pageSize = req.query.pageSize;
+    var pageIndex = req.query.pageIndex;
+    if(pageSize && pageIndex){         
+      Bus.totalNum(pageSize, function(err, count){
+        if(err){
+          res.status(err.status || 500);
+          res.json(err);
+        }else{
+          Bus.list(pageSize, pageIndex, function(err, cbBuses){
+            if(err){
+                res.json(err);
+              }else{
+                res.json({buses: cbBuses, count: count});
+              }
+            });
+          }
+        });
+    }else{
+      res.status(err.status || 500);
+      res.json("PageSize or PageIndex is null.");
+    }
+  });
+  
+  //One routes that end in /buses/:busId
+  router.route('/buses/:busId')
+  //Get bus route by id
+  .get(function(req, res){
+    Bus.getRouteById(req.params.busId, function(err, cbBus){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBus);
+      }
+    });
+  })
+  .put(function(req, res){
+    var bus = req.body;
+    Bus.update(req.params.busId, bus, function(err, cbBus){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBus);
+      }
+    });
+  })
+  .delete(function(req, res){
+    Bus.delete(req.params.busId, function(err){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json({title: 'success', msg: 'Deleted.'});
       }
     });
   });

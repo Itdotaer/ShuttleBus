@@ -64,7 +64,13 @@
                 templateUrl: '/app/views/bus/buses.html',
                 controller: 'busesController',
                 controllerAs: 'vm'
-        });
+            })
+            .state('busSchedules', {
+                url: '/busSchedules',
+                templateUrl: '/app/views/busSchedule/busSchedules.html',
+                controller: 'busSchedulesController',
+                controllerAs: 'vm'
+            });
     }
 
     function routeChanged($cookies, $state, $rootScope, $location, logger) {
@@ -77,6 +83,7 @@
                 $rootScope.userInfo = loginUser;
             } else {
                 $rootScope.authorised = false;
+                $rootScope.userInfo = null;
             }
 
             if (shouldLogin === true) {
@@ -91,7 +98,6 @@
             if (toState.name === 'login' && $rootScope.authorised) {
                 logger.logInfo('User already login.');
                 var fromStateName = fromState.name;
-                console.log('fromStateName', fromStateName);
 
                 if (fromStateName) {
                     $state.go(fromStateName);

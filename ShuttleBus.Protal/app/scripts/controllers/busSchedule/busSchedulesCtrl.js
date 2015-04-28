@@ -3,27 +3,31 @@
 
     angular
         .module('app')
-        .controller('busRoutesController', busRoutesController);
+        .controller('busSchedulesController', busSchedulesController);
 
     //Inject modules
-    busRoutesController.$inject = ['$rootScope', '$state', '$modal', 'logger', 'busRouteService', 'DEBUG'];
+    busSchedulesController.$inject = ['$rootScope', '$state', '$modal', 'logger', 'busScheduleService', 'DEBUG'];
 
-    function busRoutesController($rootScope, $state, $modal, logger, busRouteService, DEBUG) {
+    function busSchedulesController($rootScope, $state, $modal, logger, busScheduleService, DEBUG) {
         var vm = this;
         vm.pageChanged = pageChanged;
-        vm.deleteRouteById = deleteRouteById;
+        vm.deleteById = deleteById;
         vm.open = open;
+        vm.activate = activate;
+        vm.clickSearch = clickSearch;
 
         activate();
 
         function activate() {
             vm.maxSize = 5;
-            vm.pageSize = 1;
+            vm.pageSize = 10;
             vm.pageIndex = 1;
+            vm.search = false;
+            vm.schedules = [];
 
-            busRouteService.getRoutes(vm.pageSize, vm.pageIndex)
+            busScheduleService.getList(vm.pageSize, vm.pageIndex)
                 .then(function(data) {
-                    vm.busRoutes = data.routes;
+                    vm.schedules = data.schedules;
                     vm.count = data.count;
                 }, function (reason) {
                     logger.logError(angular.toJson(reason));
@@ -31,22 +35,22 @@
         }
 
         function pageChanged() {
-            busRouteService.getRoutes(vm.pageSize, vm.pageIndex)
+            busScheduleService.getList(vm.pageSize, vm.pageIndex)
                .then(function (data) {
-                   vm.busRoutes = data.routes;
+                   vm.schedules = data.schedules;
                    vm.count = data.count;
                }, function (reason) {
                    logger.logError(angular.toJson(reason));
                });
         }
 
-        function deleteRouteById(routeId, idx) {
+        function deleteById(id, idx) {
             if ($rootScope.authorised) {
-                busRouteService.deleteRouteById(routeId, idx).then(function(data) {
+                busScheduleService.deleteById(id, idx).then(function (data) {
                     if (data.title === 'success') {
                         logger.logSuccess(data.msg);
 
-                        vm.busRoutes.splice(idx, 1);
+                        vm.schedules.splice(idx, 1);
                         vm.count -= 1;
                     }
                 });
@@ -56,17 +60,22 @@
             }
         }
 
-        function open(model, routeId, idx) {
+        function open(model, id, idx) {
             model = !model ? 'add' : model;
+            if (!$rootScope.userInfo) {
+                logger.logWarning('User should login.');
+                $state.go('login');
+                return;
+            }
 
             var modalInstance = $modal.open({
-                templateUrl: '/app/views/busRoute/busRoute.html',
-                controller: 'busRouteController',
+                templateUrl: '/app/views/busSchedule/busSchedule.html',
+                controller: 'busScheduleController',
                 controllerAs: 'vm',
-                backdrop: false,
+                //backdrop: false,
                 resolve: {
-                    routeId: function () {
-                        return model === 'add' ? null : routeId;
+                    id: function () {
+                        return model === 'add' ? null : id;
                     },
                     model: function () {
                         return model;
@@ -74,17 +83,21 @@
                 }
             });
 
-            modalInstance.result.then(function (route) {
+            modalInstance.result.then(function (schedule) {
                 if (model === 'add') {
                     activate();
                 }
 
                 if (model === 'update') {
-                    vm.busRoutes[idx] = route;
+                    vm.schedules[idx] = schedule;
                 }
             }, function () {
                 logger.logInfo('Modal dismissed at: ' + new Date());
             });
+        }
+
+        function clickSearch(searchFlag) {
+            vm.search = searchFlag;
         }
     }
 })();

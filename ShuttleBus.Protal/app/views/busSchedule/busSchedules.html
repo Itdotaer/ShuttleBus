@@ -23,10 +23,10 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Route Name</th>
-                <th>Route Description</th>
-                <th>From</th>
-                <th>To</th>
+                <th>Schedule Name</th>
+                <th>Description</th>
+                <th>Time</th>
+                <th>Binded Bus</th>
                 <th>Created By</th>
                 <th>Created Date</th>
                 <th>Updated By</th>
@@ -35,21 +35,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="busRoute in vm.busRoutes | filter: vm.searchText">
+            <tr ng-repeat="schedule in vm.schedules | filter: vm.searchText">
                 <td>{{$index}}</td>
-                <td>{{busRoute.routeName}}</td>
-                <td>{{busRoute.routeDes}}</td>
-                <td>{{busRoute.routeFrom}}</td>
-                <td>{{busRoute.routeTo}}</td>
-                <td>{{busRoute.createdBy.userName}}</td>
-                <td>{{busRoute.createdDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                <td>{{busRoute.lastUpdatedBy.userName}}</td>
-                <td>{{busRoute.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{schedule.scheduleName}}</td>
+                <td>{{schedule.scheduleDes}}</td>
+                <td>{{schedule.scheduleTime | date:'HH:mm:ss'}}</td>
+                <td>
+                    <a ui-sref="buses({busId:schedule.bus._id})">
+                        {{schedule.bus.busName}}
+                    </a>
+                </td>
+                <td>{{schedule.createdBy.userName}}</td>
+                <td>{{schedule.createdDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{schedule.lastUpdatedBy.userName}}</td>
+                <td>{{schedule.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td ng-if="authorised">
-                    <a href="javascript:void(0);" ng-click="vm.open('detail', busRoute._id)">Detail</a>
+                    <a href="javascript:void(0);" ng-click="vm.open('detail', schedule._id)">Detail</a>
                     <!--<a href="javascript:void(0);" ng-click="vm.open()">Add</a>-->
-                    <a href="javascript:void(0);" ng-click="vm.open('update', busRoute._id, $index)">Update</a>
-                    <a href="javascript:void(0);" ng-click="vm.deleteRouteById(busRoute._id, $index)">Delete</a>
+                    <a href="javascript:void(0);" ng-click="vm.open('update', schedule._id, $index)">Update</a>
+                    <a href="javascript:void(0);" ng-click="vm.deleteById(schedule._id, $index)">Delete</a>
                 </td>
             </tr>
         </tbody>

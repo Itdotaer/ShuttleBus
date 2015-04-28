@@ -15,6 +15,7 @@
 
         function activate() {
             $cookies.remove('loginUser');
+
             $state.go('login');
         }     
     }

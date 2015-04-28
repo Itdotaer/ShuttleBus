@@ -1,0 +1,46 @@
+﻿<!-- Start Bus Form -->
+<form name="busForm">
+    <div class="modal-header">
+        <h3 class="modal-title">{{vm.modalTitle}}</h3>
+    </div>
+    <div class="modal-body">
+        <!--<pre>{{vm.schedule | json}}</pre>-->
+        <!--<pre>{{vm.usefulBuses | json}}</pre>-->
+        <div class="loading" ng-if="!vm.schedule">
+            <img src="/app/images/loading.gif" class="loadingImg" />
+        </div>
+        <div class="form-horizontal" ng-if="vm.schedule">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Schedule Name:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Bus Name" ng-model="vm.schedule.scheduleName" required="" ng-readonly="vm.model === 'detail'">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Description:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Description" ng-model="vm.schedule.scheduleDes" required="" ng-readonly="vm.model === 'detail'">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Time:</label>
+                <div class="col-sm-9">
+                    <input type="time" class="form-control" placeholder="Time HH:mm:ss" ng-model="vm.schedule.scheduleTime" required="" ng-readonly="vm.model === 'detail'" min="08:00:00" max="24:00:00">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Bus:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Bus" ng-model="vm.schedule.bus.busName" ng-readonly="vm.model === 'detail'" ng-if="vm.model=== 'detail'">
+                    <select type="text" class="form-control" placeholder="Bus" ng-options="bus._id as bus.busName for bus in vm.usefulBuses" ng-model="vm.schedule.bus" ng-if="vm.model != 'detail'"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.ok()" ng-disabled="!busForm.$valid">{{vm.okBtn}}</button>
+        <button class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>
+<!-- End Bus Form -->

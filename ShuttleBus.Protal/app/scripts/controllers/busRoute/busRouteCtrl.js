@@ -56,13 +56,12 @@
                 "lastUpdatedBy": $rootScope.userInfo._id
             }
 
-           return angular.copy(data);
+            return angular.copy(data);
         }
 
         function ok() {
             if (vm.model === 'detail') {
                 $modalInstance.close();
-                return;
             }
 
             if (vm.model === 'add') {

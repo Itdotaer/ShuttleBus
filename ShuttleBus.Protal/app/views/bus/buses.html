@@ -1,5 +1,24 @@
 ﻿<!-- Start Login Form -->
 <div class="container">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="vm.open()">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default" aria-label="Center Align" ng-click="vm.activate()">
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default" aria-label="Right Align" ng-if="vm.search === false" ng-click="vm.clickSearch(true);">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+        <div class="input-group" style="width: 200px;" ng-if="vm.search === true">
+            <input type="text" class="form-control" style="-ms-border-radius:0; border-radius:0;border-left:0;" placeholder="Search" ng-model="vm.searchText">
+            <div class="input-group-btn">
+                <button class="btn btn-default" aria-label="Right Align" ng-click="vm.clickSearch(false)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -18,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="bus in vm.buses">
+            <tr ng-repeat="bus in vm.buses | filter: vm.searchText">
                 <td>{{$index}}</td>
                 <td>{{bus.busName}}</td>
                 <!--<td>{{bus.busDes}}</td>-->
@@ -32,13 +51,15 @@
                 <td>{{bus.lastUpdatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td ng-if="authorised">
                     <a href="javascript:void(0);" ng-click="vm.open('detail', bus._id)">Detail</a>
-                    <a href="javascript:void(0);" ng-click="vm.open()">Add</a>
+                    <!--<a href="javascript:void(0);" ng-click="vm.open()">Add</a>-->
                     <a href="javascript:void(0);" ng-click="vm.open('update', bus._id, $index)">Update</a>
                     <a href="javascript:void(0);" ng-click="vm.deleteBusById(bus._id, $index)">Delete</a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <pagination total-items="vm.count" ng-model="vm.pageIndex" max-size="vm.maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" ng-change="vm.pageChanged()" items-per-page="vm.pageSize"></pagination>
+    <div class="row" style="text-align: center">
+        <pagination total-items="vm.count" ng-model="vm.pageIndex" max-size="vm.maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" ng-change="vm.pageChanged()" items-per-page="vm.pageSize"></pagination>
+    </div>
 </div>
 <!-- End Login Form -->

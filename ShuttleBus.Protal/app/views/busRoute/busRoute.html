@@ -12,25 +12,25 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Route Name:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" placeholder="Route Name" ng-model="vm.busRoute.routeName" required="">
+                    <input type="text" class="form-control" placeholder="Route Name" ng-model="vm.busRoute.routeName" required="" ng-readonly="vm.model === 'detail'">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" placeholder="Description" ng-model="vm.busRoute.routeDes" required="">
+                    <input type="text" class="form-control" placeholder="Description" ng-model="vm.busRoute.routeDes" required="" ng-readonly="vm.model === 'detail'">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">From:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" placeholder="From" ng-model="vm.busRoute.routeFrom" required="">
+                    <input type="text" class="form-control" placeholder="From" ng-model="vm.busRoute.routeFrom" required="" ng-readonly="vm.model === 'detail'">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">To:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" placeholder="To" ng-model="vm.busRoute.routeTo">
+                    <input type="text" class="form-control" placeholder="To" ng-model="vm.busRoute.routeTo" ng-readonly="vm.model === 'detail'">
                 </div>
             </div>
         </div>

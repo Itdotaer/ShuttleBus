@@ -59,10 +59,13 @@
   <ItemGroup>
     <Content Include="app\images\loading-x.gif" />
     <Content Include="app\images\loading.gif" />
+    <Content Include="app\scripts\controllers\busSchedule\busScheduleCtrl.js" />
+    <Content Include="app\scripts\controllers\busSchedule\busSchedulesCtrl.js" />
     <Content Include="app\scripts\controllers\bus\busCtrl.js" />
     <Content Include="app\scripts\controllers\bus\busesCtrl.js" />
-    <Content Include="app\scripts\controllers\busRoutes\busRouteCtrl.js" />
-    <Content Include="app\scripts\controllers\busRoutes\busRoutesCtrl.js" />
+    <Content Include="app\scripts\controllers\busRoute\busRouteCtrl.js" />
+    <Content Include="app\scripts\controllers\busRoute\busRoutesCtrl.js" />
+    <Content Include="app\scripts\services\busScheduleService.js" />
     <Content Include="app\scripts\services\busService.js" />
     <Content Include="app\scripts\services\busRouteService.js" />
     <Content Include="app\scripts\vendor\angularJS\angular-1.4.0-beta.6\angular-animate.min.js.map" />
@@ -83,6 +86,7 @@
     <Content Include="app\scripts\vendor\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="app\scripts\vendor\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="app\scripts\vendor\angularMd5\angular-md5.min.js.map" />
+    <None Include="Properties\PublishProfiles\ShuttleBus.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -136,7 +140,6 @@
     <Content Include="app\scripts\vendor\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="app\scripts\vendor\bootstrap\css\bootstrap.css" />
     <Content Include="app\scripts\vendor\bootstrap\css\bootstrap.min.css" />
-    <Content Include="app\scripts\vendor\bootstrap\css\bootstrap.Superhero.min.css" />
     <Content Include="app\scripts\vendor\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="app\scripts\vendor\bootstrap\js\bootstrap.js" />
     <Content Include="app\scripts\vendor\bootstrap\js\bootstrap.min.js" />
@@ -146,6 +149,8 @@
     <Content Include="app\scripts\vendor\uiBootstrap\ui-bootstrap-tpls-0.12.1.js" />
     <Content Include="app\scripts\vendor\uiBootstrap\ui-bootstrap-tpls-0.12.1.min.js" />
     <Content Include="app\styles\style.css" />
+    <Content Include="app\views\busSchedule\busSchedule.html" />
+    <Content Include="app\views\busSchedule\busSchedules.html" />
     <Content Include="app\views\busRoute\busRoute.html" />
     <Content Include="app\views\busRoute\busRoutes.html" />
     <Content Include="app\views\bus\bus.html" />

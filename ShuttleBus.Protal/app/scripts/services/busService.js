@@ -13,7 +13,8 @@
             add: add,
             update: update,
             getBusById: getBusById,
-            deleteBusById: deleteBusById
+            deleteBusById: deleteBusById,
+            getUsefulBuses: getUsefulBuses
         };
 
         return service;
@@ -52,6 +53,12 @@
 
         function deleteBusById(busId) {
             return $http.delete(APIURL + 'buses/' + busId).then(function (resp) {
+                return resp.data;
+            });
+        }
+
+        function getUsefulBuses() {
+            return $http.get(APIURL + 'buses?getUsefulBuses=true').then(function(resp) {
                 return resp.data;
             });
         }

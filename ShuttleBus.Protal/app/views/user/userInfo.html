@@ -5,35 +5,35 @@
             User Info
         </div>
         <div class="panel-body" style="margin: 5px 20px 5px 20px;">
-            <div class="detailInfo form-horizontal">
+            <form name="userInfoForm" class="form-horizontal">
                 <div class="profile-img-card">
                     <img src="http://www.gravatar.com/avatar/{{ userInfo.email | gravatar }}" />
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">User Name:</label>
                     <div class="col-sm-8">
-                        <label>{{userInfo.userName}}</label>
+                        <input type="text" class="form-control" placeholder="Fist Name" ng-model="userInfo.userName" required="" readonly="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Fist Name:</label>
                     <div class="col-sm-8">
-                        <label>{{userInfo.userName}}</label>
+                        <input type="text" class="form-control" placeholder="Fist Name" ng-model="userInfo.firstName" required="" readonly="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Last Name:</label>
                     <div class="col-sm-8">
-                        <label>{{userInfo.lastName}}</label>
+                        <input type="text" class="form-control" placeholder="Last Name" ng-model="userInfo.lastName" required="" readonly="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Email:</label>
                     <div class="col-sm-8">
-                        <label>{{userInfo.email}}</label>
+                        <input type="email" class="form-control" placeholder="Email" ng-model="userInfo.email" readonly="">
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="panel-footer">
             <div class="row">

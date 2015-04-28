@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-var BusRoute = require('../models/busRoute.js');
-var Bus = require('../models/bus.js');
+var BusRoute = require('../models/busRoute');
+var Bus = require('../models/bus');
+var BusSchedule = require('../models/busSchedule');
 
 function routes(app){
   //Allow cross domain
@@ -29,14 +30,13 @@ function routes(app){
     if(user){
       User.getUser(user.userName, user.password, function(err, user){
         if(err){
-          res.status(err.status || 500);
-          res.json(err);
+          res.status(err.status || 500).json(err);
         }else{
           res.json(user);
         }
       });
     }else{
-      res.json({title : 'err', message:'No login user.'});
+      res.status(err.status || 500).json({title : 'err', message:'No login user.'});
     }
   });
   /* User Api */
@@ -48,8 +48,7 @@ function routes(app){
     if(user){
       User.addUser(user, function(err, cbUser){
         if(err){
-          res.status(err.status || 500);
-          res.json(err);
+          res.status(err.status || 500).json(err);
         }else{
           res.json(cbUser);
         }
@@ -62,8 +61,7 @@ function routes(app){
   .get(function(req, res){
     User.list(function(err, users){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(users);
       }
@@ -76,8 +74,7 @@ function routes(app){
   .get(function(req, res){
     User.getUserById(req.params.userId, function(err, user){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(user);
       } 
@@ -87,8 +84,7 @@ function routes(app){
     var user = req.body;
     User.update(req.params.userId, user, function(err, user){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(user);
       }
@@ -97,8 +93,7 @@ function routes(app){
   .delete(function(req, res){
     User.delete(req.params.userId, function(err){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json({title: 'success', msg: 'Deleted.'});
       }
@@ -112,8 +107,7 @@ function routes(app){
     console.log(busRoute);
     BusRoute.add(busRoute, function(err, cbBusRoute){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(cbBusRoute);
       }
@@ -125,12 +119,11 @@ function routes(app){
     if(pageSize && pageIndex){         
       BusRoute.totalNum(pageSize, function(err, count){
         if(err){
-          res.status(err.status || 500);
-          res.json(err);
+          res.status(err.status || 500).json(err);
         }else{
           BusRoute.list(pageSize, pageIndex, function(err, cbBusRoutes){
             if(err){
-                res.json(err);
+                res.status(err.status || 500).json(err);
               }else{
                 res.json({routes: cbBusRoutes, count: count});
               }
@@ -148,8 +141,7 @@ function routes(app){
   .get(function(req, res){
     BusRoute.getRouteById(req.params.routeId, function(err, cbBusRoute){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(cbBusRoute);
       }
@@ -159,8 +151,7 @@ function routes(app){
     var busRoute = req.body;
     BusRoute.update(req.params.routeId, busRoute, function(err, cbBusRoute){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(cbBusRoute);
       }
@@ -182,34 +173,42 @@ function routes(app){
     var bus = req.body;
     Bus.add(bus, function(err, cbBus){
       if(err){
-        res.status(err.status || 500);
-        res.json(err);
+        res.status(err.status || 500).json(err);
       }else{
         res.json(cbBus);
       }
     });
   })
   .get(function(req, res){
-    var pageSize = req.query.pageSize;
-    var pageIndex = req.query.pageIndex;
-    if(pageSize && pageIndex){         
-      Bus.totalNum(pageSize, function(err, count){
+    var isGetUseful = req.query.getUsefulBuses;
+    if(isGetUseful === 'true'){
+      Bus.getUseful(function(err, cbBuses){
         if(err){
-          res.status(err.status || 500);
-          res.json(err);
+          res.status(err.status || 500).json(err);
         }else{
-          Bus.list(pageSize, pageIndex, function(err, cbBuses){
-            if(err){
-                res.json(err);
-              }else{
-                res.json({buses: cbBuses, count: count});
-              }
-            });
-          }
-        });
+          res.json(cbBuses);
+        }
+      });
     }else{
-      res.status(err.status || 500);
-      res.json("PageSize or PageIndex is null.");
+      var pageSize = req.query.pageSize;
+      var pageIndex = req.query.pageIndex;
+      if(pageSize && pageIndex){         
+        Bus.totalNum(pageSize, function(err, count){
+          if(err){
+            res.status(err.status || 500).json(err);
+          }else{
+            Bus.list(pageSize, pageIndex, function(err, cbBuses){
+              if(err){
+                  res.status(err.status || 500).json(err);
+                }else{
+                  res.json({buses: cbBuses, count: count});
+                }
+              });
+            }
+          });
+      }else{
+        res.status(500).json("PageSize or PageIndex is null.");
+      }
     }
   });
   
@@ -241,6 +240,76 @@ function routes(app){
     Bus.delete(req.params.busId, function(err){
       if(err){
         res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json({title: 'success', msg: 'Deleted.'});
+      }
+    });
+  });
+  
+  //One routes that end in /busSchedules
+  router.route('/busSchedules')
+  .post(function(req, res){
+    var busSchedule = req.body;
+    BusSchedule.add(busSchedule, function(err, cbBusSchedule){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusSchedule);
+      }
+    });
+  })
+  .get(function(req, res){
+    var pageSize = req.query.pageSize;
+    var pageIndex = req.query.pageIndex;
+    if(pageSize && pageIndex){         
+      BusSchedule.totalNum(pageSize, function(err, count){
+        if(err){
+          res.status(err.status || 500);
+          res.json(err);
+        }else{
+          BusSchedule.list(pageSize, pageIndex, function(err, cbBusSchedules){
+            if(err){
+                res.json(err);
+              }else{
+                res.json({schedules: cbBusSchedules, count: count});
+              }
+            });
+          }
+        });
+    }else{
+      res.json("PageSize or PageIndex is null.");
+    }
+  });
+  
+  //One routes that end in /busSchedules/:scheduleId
+  router.route('/busSchedules/:scheduleId')
+  //Get bus route by id
+  .get(function(req, res){
+    BusSchedule.getScheduleById(req.params.scheduleId, function(err, cbBusSchedule){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusSchedule);
+      }
+    });
+  })
+  .put(function(req, res){
+    var busSchedule = req.body;
+    BusSchedule.update(req.params.scheduleId, busSchedule, function(err, cbBusSchedule){
+      if(err){
+        res.status(err.status || 500);
+        res.json(err);
+      }else{
+        res.json(cbBusSchedule);
+      }
+    });
+  })
+  .delete(function(req, res){
+    BusSchedule.delete(req.params.scheduleId, function(err, cbBusSchedule){
+      if(err){
         res.json(err);
       }else{
         res.json({title: 'success', msg: 'Deleted.'});

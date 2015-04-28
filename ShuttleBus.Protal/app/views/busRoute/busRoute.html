@@ -1,0 +1,43 @@
+﻿<!-- Start Bus Route Form -->
+<form name="busRouteForm">
+    <div class="modal-header">
+        <h3 class="modal-title">{{vm.modalTitle}}</h3>
+    </div>
+    <div class="modal-body">
+        <!--<pre>{{vm.busRoute | json}}</pre>-->
+        <div class="loading" ng-if="!vm.busRoute">
+            <img src="/app/images/loading.gif" class="loadingImg" />
+        </div>
+        <div class="form-horizontal" ng-if="vm.busRoute">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Route Name:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Route Name" ng-model="vm.busRoute.routeName" required="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Description:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Description" ng-model="vm.busRoute.routeDes" required="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">From:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="From" ng-model="vm.busRoute.routeFrom" required="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">To:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="To" ng-model="vm.busRoute.routeTo">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.ok()" ng-disabled="!busRouteForm.$valid">{{vm.okBtn}}</button>
+        <button class="btn btn-warning" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</form>
+<!-- End Bus Route Form -->

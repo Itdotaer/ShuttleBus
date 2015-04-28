@@ -57,6 +57,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\images\loading-x.gif" />
+    <Content Include="app\images\loading.gif" />
+    <Content Include="app\scripts\controllers\bus\busCtrl.js" />
+    <Content Include="app\scripts\controllers\bus\busesCtrl.js" />
+    <Content Include="app\scripts\controllers\busRoutes\busRouteCtrl.js" />
+    <Content Include="app\scripts\controllers\busRoutes\busRoutesCtrl.js" />
+    <Content Include="app\scripts\services\busService.js" />
+    <Content Include="app\scripts\services\busRouteService.js" />
     <Content Include="app\scripts\vendor\angularJS\angular-1.4.0-beta.6\angular-animate.min.js.map" />
     <Content Include="app\scripts\vendor\angularJS\angular-1.4.0-beta.6\angular-aria.min.js.map" />
     <Content Include="app\scripts\vendor\angularJS\angular-1.4.0-beta.6\angular-cookies.min.js.map" />
@@ -93,10 +101,7 @@
     <Content Include="app\scripts\directives\gallery\galleryCtrl.js" />
     <Content Include="app\scripts\directives\gallery\galleryDirective.js" />
     <Content Include="app\scripts\directives\gallery\galleryModule.js" />
-    <Content Include="app\scripts\services\galleryService.js" />
     <Content Include="app\scripts\services\logger.js" />
-    <Content Include="app\scripts\services\mailService.js" />
-    <Content Include="app\scripts\services\postService.js" />
     <Content Include="app\scripts\services\servicesModule.js" />
     <Content Include="app\scripts\services\userService.js" />
     <Content Include="app\scripts\vendor\angularJS\angular-1.4.0-beta.6\angular-animate.js" />
@@ -141,6 +146,10 @@
     <Content Include="app\scripts\vendor\uiBootstrap\ui-bootstrap-tpls-0.12.1.js" />
     <Content Include="app\scripts\vendor\uiBootstrap\ui-bootstrap-tpls-0.12.1.min.js" />
     <Content Include="app\styles\style.css" />
+    <Content Include="app\views\busRoute\busRoute.html" />
+    <Content Include="app\views\busRoute\busRoutes.html" />
+    <Content Include="app\views\bus\bus.html" />
+    <Content Include="app\views\bus\buses.html" />
     <Content Include="app\views\main.html" />
     <Content Include="app\views\user\editUserInfo.html" />
     <Content Include="app\views\user\userInfo.html" />
@@ -152,7 +161,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\images\" />
     <Folder Include="app\scripts\filters\" />
   </ItemGroup>
   <PropertyGroup>

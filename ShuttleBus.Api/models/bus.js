@@ -9,6 +9,7 @@ var BusSchema = new Schema({
   busOwner: {type: String, required: true},
   busOwnerNumber: {type: String, required: true},
   busStatus: {type: String, required: true},
+  scheduleId: {type: Schema.ObjectId, default: null, ref: 'schedules', null: true},
   createdBy: {type:Schema.ObjectId, required: true, ref: 'Users'},
   createdDate: {type: Date, default: new Date()},
   lastUpdatedBy: {type: Schema.ObjectId, required: true, ref: 'Users'},
@@ -26,6 +27,10 @@ Bus.add = function(bus, callback){
 
 Bus.totalNum = function(pageSize, callback){
   BusModel.count(callback);
+}
+
+Bus.getUseful = function(callback){
+  BusModel.find({scheduleId: null}).sort({'lastUpdatedDate':-1, 'createdDate': -1}).populate('createdBy').populate('lastUpdatedBy').exec(callback);
 }
 
 Bus.list = function(pageSize, pageIndex, callback){
@@ -54,12 +59,31 @@ Bus.update = function(busId, bus, callback){
   BusModel.findOneAndUpdate({_id: busId}, update, callback);
 }
 
+Bus.updateScheduleId = function(busId, scheduleId, operUserId, callback){
+  if(!busId){
+    return callback('No bus id.');
+  }
+  
+  lastUpdatedDate = new Date();
+  
+  var update = {
+    scheduleId: scheduleId,
+    updatedDate: lastUpdatedDate
+  };
+  
+  if(operUserId){
+    update['lastUpdatedBy'] = operUserId;
+  }
+  
+  BusModel.findOneAndUpdate({_id: busId}, update, callback);
+}
+
 Bus.delete = function(busId, callback){
-   BusModel.find({_id: busId}, function(err, foundRoute){
+   BusModel.find({_id: busId}, function(err, foundBus){
     if(err){
       return callback(err);
     }
-    if(foundRoute.length == 1){
+    if(foundBus.length == 1){
       BusModel.findByIdAndRemove(busId, function(err){
         if(err){
           return callback(err);
